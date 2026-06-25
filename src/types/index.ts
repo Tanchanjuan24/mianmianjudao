@@ -31,6 +31,27 @@ export interface RadarDimension {
   fullMark: number;
 }
 
+// 面部分析数据
+export interface FacialAnalysis {
+  eyeContact: number;       // 眼神交流 0-100
+  smileRate: number;        // 微笑频率 0-100
+  headStability: number;    // 头部稳定性 0-100
+  facialExpression: number; // 表情丰富度 0-100
+  nervousness: number;      // 紧张程度 0-100（越低越好）
+  eyeContactFeedback: string;
+  expressionFeedback: string;
+  overallFeedback: string;
+}
+
+// 回答分析
+export interface AnswerAnalysis {
+  question: string;
+  answer: string;
+  score: number;
+  feedback: string;
+  keywords: string[];
+}
+
 // 复盘数据
 export interface ReviewReport {
   scene: SceneType;
@@ -42,6 +63,8 @@ export interface ReviewReport {
   summary: string;
   strengths: string[];
   improvements: string[];
+  facialAnalysis?: FacialAnalysis;
+  answerAnalysis?: AnswerAnalysis[];
 }
 
 // 文稿行（用于对比展示）
