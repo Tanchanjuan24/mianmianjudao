@@ -6,7 +6,7 @@ interface DigitalAvatarProps {
 
 export default function DigitalAvatar({ isSpeaking, isListening, phase }: DigitalAvatarProps) {
   return (
-    <div className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 overflow-hidden">
+    <div className="relative w-full h-full min-h-[280px] flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 overflow-hidden">
       {/* 背景光效 */}
       <div className="absolute inset-0">
         <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl transition-opacity duration-1000 ${isSpeaking ? 'bg-cyan-500/20 opacity-100' : 'bg-indigo-500/10 opacity-50'}`} />
