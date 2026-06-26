@@ -6,7 +6,7 @@ interface DigitalAvatarProps {
 
 export default function DigitalAvatar({ isSpeaking, isListening, phase }: DigitalAvatarProps) {
   return (
-    <div className="relative w-full h-full min-h-[280px] flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 overflow-hidden">
+    <div className="relative w-full h-full min-h-[100px] flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 overflow-hidden">
       {/* 背景光效 */}
       <div className="absolute inset-0">
         <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl transition-opacity duration-1000 ${isSpeaking ? 'bg-cyan-500/20 opacity-100' : 'bg-indigo-500/10 opacity-50'}`} />
@@ -26,7 +26,7 @@ export default function DigitalAvatar({ isSpeaking, isListening, phase }: Digita
           )}
 
           {/* SVG 数字人 */}
-          <svg width="160" height="200" viewBox="0 0 160 200" className="drop-shadow-2xl">
+          <svg width="100" height="120" viewBox="0 0 160 200" className="drop-shadow-2xl max-w-full max-h-full">
             {/* 身体/肩膀 */}
             <ellipse cx="80" cy="190" rx="50" ry="20" fill="url(#bodyGradient)" opacity="0.6" />
             <path d="M 35 190 Q 35 150, 80 145 Q 125 150, 125 190 Z" fill="url(#bodyGradient)" opacity="0.8" />
@@ -83,29 +83,29 @@ export default function DigitalAvatar({ isSpeaking, isListening, phase }: Digita
         </div>
 
         {/* 状态标签 */}
-        <div className="mt-4 flex flex-col items-center gap-2">
+        <div className="mt-2 flex flex-col items-center gap-1">
           {phase === 'idle' && (
-            <span className="text-xs text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full">AI 面试官待命</span>
+            <span className="text-[10px] text-slate-400 bg-slate-800/50 px-2 py-0.5 rounded-full">待命</span>
           )}
           {isSpeaking && (
-            <div className="flex items-center gap-2 text-cyan-400">
-              <div className="voice-wave" style={{ height: 16 }}>
+            <div className="flex items-center gap-1 text-cyan-400">
+              <div className="voice-wave" style={{ height: 12 }}>
                 <span /><span /><span /><span /><span />
               </div>
-              <span className="text-xs font-medium">正在提问...</span>
+              <span className="text-[10px] font-medium">提问中</span>
             </div>
           )}
           {isListening && !isSpeaking && (
-            <div className="flex items-center gap-2 text-emerald-400">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              <span className="text-xs font-medium">正在聆听...</span>
+            <div className="flex items-center gap-1 text-emerald-400">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-[10px] font-medium">聆听中</span>
             </div>
           )}
           {phase === 'interviewing' && !isSpeaking && !isListening && (
-            <span className="text-xs text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full">等待你的回答</span>
+            <span className="text-[10px] text-slate-400 bg-slate-800/50 px-2 py-0.5 rounded-full">等待回答</span>
           )}
           {phase === 'completed' && (
-            <span className="text-xs text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full">面试已结束</span>
+            <span className="text-[10px] text-slate-400 bg-slate-800/50 px-2 py-0.5 rounded-full">已结束</span>
           )}
         </div>
       </div>
