@@ -22,8 +22,8 @@ export default function RadarChart({ dimensions, overallScore }: RadarChartProps
       tooltip: {
         trigger: 'item',
         backgroundColor: 'rgba(255,255,255,0.95)',
-        borderColor: '#e2e8f0',
-        textStyle: { color: '#334155', fontSize: 13 },
+        borderColor: '#E0DCCF',
+        textStyle: { color: '#2A2A28', fontSize: 13 },
       },
       legend: {
         show: false,
@@ -36,21 +36,21 @@ export default function RadarChart({ dimensions, overallScore }: RadarChartProps
           max: d.fullMark,
         })),
         axisName: {
-          color: '#64748b',
+          color: '#6B6B68',
           fontSize: 11,
           fontWeight: 500,
         },
         shape: 'polygon',
         splitNumber: 5,
         axisLine: {
-          lineStyle: { color: '#e2e8f0' },
+          lineStyle: { color: '#E0DCCF' },
         },
         splitLine: {
-          lineStyle: { color: '#f1f5f9' },
+          lineStyle: { color: '#FAF7EE' },
         },
         splitArea: {
           areaStyle: {
-            color: ['#fff', '#f8fafc'],
+            color: ['#fff', '#FAF7EE'],
           },
         },
       },
@@ -63,16 +63,16 @@ export default function RadarChart({ dimensions, overallScore }: RadarChartProps
               name: '你的表现',
               areaStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: 'rgba(99, 102, 241, 0.3)' },
-                  { offset: 1, color: 'rgba(99, 102, 241, 0.05)' },
+                  { offset: 0, color: 'rgba(92, 169, 138, 0.3)' },
+                  { offset: 1, color: 'rgba(92, 169, 138, 0.05)' },
                 ]),
               },
               lineStyle: {
-                color: '#6366f1',
+                color: '#5CA98A',
                 width: 2,
               },
               itemStyle: {
-                color: '#6366f1',
+                color: '#5CA98A',
                 borderColor: '#fff',
                 borderWidth: 2,
               },
@@ -92,32 +92,32 @@ export default function RadarChart({ dimensions, overallScore }: RadarChartProps
   }, [dimensions]);
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-amber-600';
-    return 'text-red-500';
+    if (score >= 80) return 'text-[#5CA98A]';
+    if (score >= 60) return 'text-[#D4A843]';
+    return 'text-[#C97064]';
   };
 
   const getScoreBg = (score: number) => {
-    if (score >= 80) return 'bg-green-50 border-green-200';
-    if (score >= 60) return 'bg-amber-50 border-amber-200';
-    return 'bg-red-50 border-red-200';
+    if (score >= 80) return 'bg-[#E8F3EE] border-[#5CA98A]/30';
+    if (score >= 60) return 'bg-[#FAF3E0] border-[#D4A843]/30';
+    return 'bg-[#C97064]/10 border-[#C97064]/30';
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 h-full flex flex-col overflow-hidden">
+    <div className="bg-white rounded-xl border border-[#E0DCCF] h-full flex flex-col overflow-hidden">
       {/* 标题栏 */}
-      <div className="border-b border-gray-200 px-4 py-3">
-        <h3 className="font-semibold text-gray-800 text-sm sm:text-base">能力雷达图</h3>
-        <p className="text-xs text-gray-400 mt-0.5">6维综合评估</p>
+      <div className="border-b border-[#E0DCCF] px-4 py-3">
+        <h3 className="font-semibold text-[#2A2A28] text-sm sm:text-base">能力雷达图</h3>
+        <p className="text-xs text-[#9E9E9B] mt-0.5">6维综合评估</p>
       </div>
 
       {/* 综合评分 */}
       <div className="px-4 pt-3">
         <div className={`border rounded-xl p-3 text-center ${getScoreBg(overallScore)}`}>
-          <p className="text-xs text-gray-500 mb-1">综合评分</p>
+          <p className="text-xs text-[#9E9E9B] mb-1">综合评分</p>
           <p className={`text-3xl font-bold ${getScoreColor(overallScore)}`}>
             {overallScore}
-            <span className="text-sm font-normal text-gray-400">/100</span>
+            <span className="text-sm font-normal text-[#9E9E9B]">/100</span>
           </p>
         </div>
       </div>
@@ -130,11 +130,11 @@ export default function RadarChart({ dimensions, overallScore }: RadarChartProps
         <div className="space-y-1.5">
           {dimensions.map((d, i) => (
             <div key={i} className="flex items-center justify-between text-xs">
-              <span className="text-gray-500">{d.name}</span>
+              <span className="text-[#9E9E9B]">{d.name}</span>
               <div className="flex items-center gap-2">
-                <div className="w-20 sm:w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="w-20 sm:w-24 h-1.5 bg-[#FAF7EE] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-indigo-500 rounded-full transition-all"
+                    className="h-full bg-[#5CA98A] rounded-full transition-all"
                     style={{ width: `${(d.score / d.fullMark) * 100}%` }}
                   />
                 </div>

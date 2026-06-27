@@ -83,30 +83,30 @@ export default function ReviewPage() {
     <div className="flex-1 flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Link to={searchParams.get('recordId') ? '/history' : `/interview/${currentScene}`} className="text-gray-400 hover:text-gray-600 transition-colors">
+          <Link to={searchParams.get('recordId') ? '/history' : `/interview/${currentScene}`} className="text-[#9E9E9B] hover:text-[#6B6B68] transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </Link>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-gray-800">{sceneTitle} · 复盘报告</h1>
-            <p className="text-xs text-gray-400">面试表现全面分析</p>
+            <h1 className="text-lg sm:text-xl font-bold text-[#2A2A28]">{sceneTitle} · 复盘报告</h1>
+            <p className="text-xs text-[#9E9E9B]">面试表现全面分析</p>
           </div>
         </div>
         <div className="flex gap-2">
-          <button onClick={handleExportReport} className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm transition-colors flex items-center gap-1.5">
+          <button onClick={handleExportReport} className="px-3 py-1.5 bg-[#FAF7EE] hover:bg-[#E0DCCF] text-[#6B6B68] rounded-lg text-sm transition-colors flex items-center gap-1.5">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             <span className="hidden sm:inline">导出报告</span>
           </button>
-          <Link to="/history" className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm transition-colors hidden sm:block">历史记录</Link>
-          <Link to="/" className="px-4 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm font-medium transition-colors">返回首页</Link>
+          <Link to="/history" className="px-3 py-1.5 bg-[#FAF7EE] hover:bg-[#E0DCCF] text-[#6B6B68] rounded-lg text-sm transition-colors hidden sm:block">历史记录</Link>
+          <Link to="/" className="px-4 py-1.5 bg-[#5CA98A] hover:bg-[#4E8E75] text-white rounded-lg text-sm font-medium transition-colors">返回首页</Link>
         </div>
       </div>
 
       {/* 手机端 Tab */}
       {isMobile && (
-        <div className="flex bg-gray-100 rounded-xl p-1 mb-4 overflow-x-auto scrollbar-thin">
+        <div className="flex bg-[#FAF7EE] rounded-xl p-1 mb-4 overflow-x-auto scrollbar-thin">
           {tabs.map((tab) => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              className={`flex-1 min-w-[70px] py-2 text-xs font-medium rounded-lg transition-all whitespace-nowrap ${activeTab === tab.key ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500'}`}>
+              className={`flex-1 min-w-[70px] py-2 text-xs font-medium rounded-lg transition-all whitespace-nowrap ${activeTab === tab.key ? 'bg-white text-[#5CA98A] shadow-sm' : 'text-[#9E9E9B]'}`}>
               <span className="mr-0.5">{tab.icon}</span>{tab.label}
             </button>
           ))}
