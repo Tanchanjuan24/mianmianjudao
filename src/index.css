@@ -2,23 +2,24 @@
 
 @layer base {
   :root {
-    /* 参考图配色：深墨绿底 + 薄荷绿主色 + 暖黄点缀 + 米白文字 */
-    --color-bg: #1A1A19;
-    --color-bg-soft: #252524;
-    --color-surface: #2A2A28;
-    --color-surface-light: #353533;
+    /* 浅暖底 + 薄荷绿主色 + 暖黄点缀 - 参考图片配色 */
+    --color-bg: #F5F2E8;
+    --color-bg-soft: #EDE9DC;
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #FAF7EE;
     --color-primary: #5CA98A;
     --color-primary-dark: #4E8E75;
     --color-primary-light: #7BC4A8;
-    --color-accent: #F9FC8F;
-    --color-accent-soft: #DADBD6;
-    --color-text: #DADBD6;
-    --color-text-secondary: #9EA09B;
-    --color-text-muted: #6B6B68;
-    --color-border: #3A3A38;
+    --color-primary-bg: #E8F3EE;
+    --color-accent: #D4A843;
+    --color-accent-light: #E8C778;
+    --color-accent-bg: #FAF3E0;
+    --color-text: #2A2A28;
+    --color-text-secondary: #6B6B68;
+    --color-text-muted: #9E9E9B;
+    --color-border: #E0DCCF;
     --color-success: #5CA98A;
     --color-danger: #C97064;
-    --color-warning: #F9FC8F;
   }
 
   * { box-sizing: border-box; }
@@ -47,7 +48,6 @@
   .animate-float { animation: float 6s ease-in-out infinite; }
   .animate-glow { animation: glow 2s ease-in-out infinite; }
 
-  /* 语音波形 */
   .voice-wave { display: flex; align-items: center; gap: 2px; height: 16px; }
   .voice-wave span { display: inline-block; width: 2px; border-radius: 1px; background: currentColor; animation: voiceWave 1s ease-in-out infinite; }
   .voice-wave span:nth-child(1) { animation-delay: 0s; height: 30%; }
@@ -56,17 +56,15 @@
   .voice-wave span:nth-child(4) { animation-delay: 0.3s; height: 60%; }
   .voice-wave span:nth-child(5) { animation-delay: 0.4s; height: 30%; }
 
-  /* 渐变文字 */
   .text-gradient-primary {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    background: linear-gradient(135deg, #5CA98A, #D4A843);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
 
-  /* 暗色玻璃态 */
-  .glass-dark {
-    background: rgba(42, 42, 40, 0.7);
+  .glass {
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.4);
   }
 }
 

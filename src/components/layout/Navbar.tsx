@@ -5,14 +5,14 @@ export default function Navbar() {
   const isHome = location.pathname === '/';
 
   return (
-    <nav className="bg-[#1A1A19]/90 backdrop-blur-md border-b border-[#3A3A38] sticky top-0 z-50">
+    <nav className="bg-white/80 backdrop-blur-md border-b border-[#E0DCCF] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           <Link to="/" className="flex items-center gap-2 sm:gap-3 no-underline">
             <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-[#5CA98A] to-[#4E8E75] rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-base">
               面
             </div>
-            <span className="font-semibold text-[#DADBD6] text-base sm:text-lg">面面俱到</span>
+            <span className="font-semibold text-[#2A2A28] text-base sm:text-lg">面面俱到</span>
           </Link>
           {!isHome && (
             <div className="flex items-center gap-3">

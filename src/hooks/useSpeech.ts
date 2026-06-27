@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 
 // Web Speech API 类型声明
 interface SpeechRecognitionEvent {
@@ -37,10 +37,19 @@ export function useSpeech() {
   const [interimText, setInterimText] = useState('');
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
+  // 用 ref 保存最新的回调，避免闭包过期
+  const onResultRef = useRef<((text: string, isFinal: boolean) => void) | null>(null);
 
-  // 初始化语音合成
+  // 预加载语音列表
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      synthRef.current = window.speechSynthesis;
+      window.speechSynthesis.getVoices();
+    }
+  }, []);
+
   const getSynth = useCallback(() => {
-    if (!synthRef.current) {
+    if (!synthRef.current && typeof window !== 'undefined') {
       synthRef.current = window.speechSynthesis;
     }
     return synthRef.current;
@@ -49,9 +58,7 @@ export function useSpeech() {
   // AI 语音播报
   const speak = useCallback((text: string, onEnd?: () => void) => {
     const synth = getSynth();
-    if (!synth) return;
-
-    // 先取消正在播放的
+    if (!synth) { onEnd?.(); return; }
     synth.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -60,44 +67,41 @@ export function useSpeech() {
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
-    // 尝试选中文语音
     const voices = synth.getVoices();
     const zhVoice = voices.find(v => v.lang.startsWith('zh'));
     if (zhVoice) utterance.voice = zhVoice;
 
     utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => {
-      setIsSpeaking(false);
-      onEnd?.();
-    };
-    utterance.onerror = () => {
-      setIsSpeaking(false);
-      onEnd?.();
-    };
+    utterance.onend = () => { setIsSpeaking(false); onEnd?.(); };
+    utterance.onerror = () => { setIsSpeaking(false); onEnd?.(); };
 
     synth.speak(utterance);
   }, [getSynth]);
 
-  // 停止播报
   const stopSpeaking = useCallback(() => {
     const synth = getSynth();
-    if (synth) {
-      synth.cancel();
-      setIsSpeaking(false);
-    }
+    if (synth) { synth.cancel(); }
+    setIsSpeaking(false);
   }, [getSynth]);
 
-  // 开始语音识别
+  // 开始语音识别 - 使用 ref 确保回调始终最新
   const startListening = useCallback((onResult: (text: string, isFinal: boolean) => void) => {
-    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    // 保存回调到 ref
+    onResultRef.current = onResult;
+
+    const SpeechRecognitionAPI = typeof window !== 'undefined' 
+      ? (window.SpeechRecognition || window.webkitSpeechRecognition) 
+      : null;
+    
     if (!SpeechRecognitionAPI) {
-      console.warn('浏览器不支持语音识别');
+      console.warn('浏览器不支持语音识别，请使用 Chrome 浏览器');
+      alert('浏览器不支持语音识别，请使用 Chrome 浏览器。你也可以在下方文字框直接输入回答。');
       return;
     }
 
     // 先停掉之前的
     if (recognitionRef.current) {
-      recognitionRef.current.abort();
+      try { recognitionRef.current.abort(); } catch { /* ignore */ }
     }
 
     const recognition = new SpeechRecognitionAPI();
@@ -119,16 +123,25 @@ export function useSpeech() {
       }
 
       if (finalTranscript) {
-        onResult(finalTranscript, true);
         setInterimText('');
+        // 使用 ref 中的最新回调
+        if (onResultRef.current) {
+          onResultRef.current(finalTranscript, true);
+        }
       } else if (interimTranscript) {
         setInterimText(interimTranscript);
-        onResult(interimTranscript, false);
+        if (onResultRef.current) {
+          onResultRef.current(interimTranscript, false);
+        }
       }
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      console.warn('语音识别错误:', event.error);
       setIsListening(false);
+      if (event.error === 'not-allowed') {
+        alert('麦克风权限被拒绝，请在浏览器设置中允许访问麦克风。');
+      }
     };
 
     recognition.onend = () => {
@@ -146,20 +159,20 @@ export function useSpeech() {
       recognition.start();
     } catch (err) {
       console.error('语音识别启动失败:', err);
+      // 可能是已经启动了，先停止再启动
+      try { recognition.abort(); } catch { /* ignore */ }
     }
   }, []);
 
-  // 停止语音识别
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try { recognitionRef.current.stop(); } catch { /* ignore */ }
       recognitionRef.current = null;
     }
     setIsListening(false);
     setInterimText('');
   }, []);
 
-  // 清理
   const cleanup = useCallback(() => {
     stopListening();
     stopSpeaking();

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import VideoPanel from '../components/interview/VideoPanel';
 import ChatPanel from '../components/interview/ChatPanel';
@@ -21,6 +21,12 @@ export default function InterviewPage() {
   const { isListening, isSpeaking, interimText, speak, stopSpeaking, startListening, stopListening, cleanup } = useSpeech();
   const [showAIConfig, setShowAIConfig] = useState(false);
   const [isAIThinking, setIsAIThinking] = useState(false);
+  // 用 ref 保存最新的 messages 和 handleSend，解决语音回调闭包过期问题
+  const messagesRef = useRef<Message[]>([]);
+  const handleSendRef = useRef<(content: string) => void>(() => {});
+  
+  // 同步 messages 到 ref
+  useEffect(() => { messagesRef.current = state.messages; }, [state.messages]);
 
   const currentScene = (scene as SceneType) || 'job';
   const sceneTitle = currentScene === 'job' ? '求职备战' : '社团竞选';
@@ -92,18 +98,26 @@ export default function InterviewPage() {
     speak(openingContent);
   };
 
-  const handleSend = async (content: string) => {
+  // handleSend 用 useCallback 包裹，确保引用稳定
+  const handleSend = useCallback(async (content: string) => {
     stopSpeaking();
     stopListening();
     const userMsg: Message = { id: `user-${Date.now()}`, role: 'user', content, timestamp: Date.now() };
     dispatch({ type: 'ADD_MESSAGE', payload: userMsg });
-    const updatedMessages = [...state.messages, userMsg];
+    // 使用 ref 中的最新 messages
+    const updatedMessages = [...messagesRef.current, userMsg];
     await getAIResponse(updatedMessages, true);
-  };
+  }, [stopSpeaking, stopListening, dispatch, getAIResponse]);
 
+  // 同步到 ref，供语音回调使用
+  useEffect(() => { handleSendRef.current = handleSend; }, [handleSend]);
+
+  // 语音识别结果回调 - 使用 ref 确保始终调用最新版本
   const handleVoiceResult = useCallback((text: string, isFinal: boolean) => {
-    if (isFinal && text.trim()) { handleSend(text.trim()); }
-  }, [handleSend]);
+    if (isFinal && text.trim()) {
+      handleSendRef.current(text.trim());
+    }
+  }, []);
 
   const handleToggleListening = useCallback(() => {
     if (isListening) { stopListening(); } else { stopSpeaking(); startListening(handleVoiceResult); }
@@ -156,26 +170,26 @@ export default function InterviewPage() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </Link>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-[#DADBD6]">{sceneTitle}</h1>
-            <p className="text-xs text-[#6B6B68]">{sceneSubtitle}</p>
+            <h1 className="text-lg sm:text-xl font-bold text-[#2A2A28]">{sceneTitle}</h1>
+            <p className="text-xs text-[#9E9E9B]">{sceneSubtitle}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {(isSpeaking || isListening) && (
-            <div className={`px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1.5 ${isSpeaking ? 'bg-[#5CA98A]/10 text-[#5CA98A]' : 'bg-[#F9FC8F]/10 text-[#F9FC8F]'}`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isSpeaking ? 'bg-[#5CA98A]' : 'bg-[#F9FC8F]'} animate-pulse`} />
+            <div className={`px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1.5 ${isSpeaking ? 'bg-[#5CA98A]/10 text-[#5CA98A]' : 'bg-[#D4A843]/10 text-[#D4A843]'}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${isSpeaking ? 'bg-[#5CA98A]' : 'bg-[#D4A843]'} animate-pulse`} />
               {isSpeaking ? 'AI说话' : '聆听中'}
             </div>
           )}
           {state.phase === 'interviewing' && (
-            <div className="hidden sm:flex items-center gap-2 text-[10px] text-[#6B6B68] bg-[#2A2A28] px-2.5 py-1.5 rounded-full">
-              <div className="w-14 h-1 bg-[#353533] rounded-full overflow-hidden">
+            <div className="hidden sm:flex items-center gap-2 text-[10px] text-[#6B6B68] bg-white border border-[#E0DCCF] px-2.5 py-1.5 rounded-full">
+              <div className="w-14 h-1 bg-[#E0DCCF] rounded-full overflow-hidden">
                 <div className="h-full bg-[#5CA98A] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
               </div>
               <span>{state.questionCount}/{state.maxQuestions}</span>
             </div>
           )}
-          <button onClick={() => setShowAIConfig(true)} className={`px-2.5 py-1.5 rounded-lg text-[10px] font-medium border transition-colors ${state.isMockMode ? 'border-[#F9FC8F]/30 bg-[#F9FC8F]/5 text-[#F9FC8F]' : 'border-[#5CA98A]/30 bg-[#5CA98A]/5 text-[#5CA98A]'}`}>
+          <button onClick={() => setShowAIConfig(true)} className={`px-2.5 py-1.5 rounded-lg text-[10px] font-medium border transition-colors ${state.isMockMode ? 'border-[#D4A843]/30 bg-[#D4A843]/5 text-[#D4A843]' : 'border-[#5CA98A]/30 bg-[#5CA98A]/5 text-[#5CA98A]'}`}>
             {state.isMockMode ? 'Mock' : 'AI'}
           </button>
           {state.phase === 'completed' && (
@@ -185,13 +199,13 @@ export default function InterviewPage() {
       </div>
 
       {state.phase === 'idle' && (
-        <div className="mb-4 p-3 glass-dark rounded-xl text-sm text-[#9EA09B] flex items-center gap-3">
+        <div className="mb-4 p-3 bg-white border border-[#E0DCCF] rounded-xl text-sm flex items-center gap-3 shadow-sm">
           <span className="text-base">🎙️</span>
           <div>
-            <p className="font-medium text-[#DADBD6] text-xs">
+            <p className="font-medium text-[#2A2A28] text-xs">
               {currentScene === 'job' ? `${state.jobConfig.industry || '未选择'} · ${state.jobConfig.position || '未选择'}` : `${state.clubConfig.organizationType || '未选择'} · ${state.clubConfig.position || '未选择'}`}
             </p>
-            <p className="text-[10px] text-[#6B6B68] mt-0.5">AI面试官语音提问 · 你可打字或语音回答 · 右侧实时字幕</p>
+            <p className="text-[10px] text-[#9E9E9B] mt-0.5">AI面试官语音提问 · 你可打字或语音回答 · 右侧实时字幕</p>
           </div>
         </div>
       )}
@@ -203,7 +217,7 @@ export default function InterviewPage() {
             isAISpeaking={isSpeaking} isListening={isListening} phase={state.phase} />
           {state.phase === 'interviewing' && (
             <div className="sm:hidden flex items-center gap-2 text-[10px] text-[#6B6B68]">
-              <div className="flex-1 h-1 bg-[#353533] rounded-full overflow-hidden">
+              <div className="flex-1 h-1 bg-[#E0DCCF] rounded-full overflow-hidden">
                 <div className="h-full bg-[#5CA98A] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
               </div>
               <span>{state.questionCount}/{state.maxQuestions}</span>

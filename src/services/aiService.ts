@@ -35,9 +35,14 @@ function buildSystemPrompt(scene: SceneType, isFollowUp: boolean, configContext:
 export async function callAI(config: AIConfig, messages: Message[], scene: SceneType, isFollowUp = false): Promise<string> {
   const systemMessages = messages.filter((m) => m.role === 'system');
   const configContext = systemMessages.map((m) => m.content).join('\n\n');
+  
+  // 提取最后一条用户消息
+  const lastUserMsg = [...messages].reverse().find(m => m.role === 'user');
+  
+  // Mock 模式 - 根据用户回答生成回应
   if (!config.apiKey) {
-    await new Promise((r) => setTimeout(r, 800 + Math.random() * 1200));
-    return getNextMockQuestion(scene);
+    await new Promise((r) => setTimeout(r, 600 + Math.random() * 800));
+    return getNextMockQuestion(scene, isFollowUp ? lastUserMsg?.content : undefined);
   }
   const systemPrompt = buildSystemPrompt(scene, isFollowUp, configContext);
   const apiMessages = [
