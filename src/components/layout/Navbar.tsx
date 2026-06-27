@@ -5,34 +5,23 @@ export default function Navbar() {
   const isHome = location.pathname === '/';
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-[#1A1A19]/90 backdrop-blur-md border-b border-[#3A3A38] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           <Link to="/" className="flex items-center gap-2 sm:gap-3 no-underline">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-base">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-[#5CA98A] to-[#4E8E75] rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-base">
               面
             </div>
-            <span className="font-semibold text-gray-800 text-base sm:text-lg">面面俱到</span>
+            <span className="font-semibold text-[#DADBD6] text-base sm:text-lg">面面俱到</span>
           </Link>
-
           {!isHome && (
             <div className="flex items-center gap-3">
-              <Link
-                to="/history"
-                className="text-sm text-gray-400 hover:text-indigo-600 transition-colors flex items-center gap-1"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+              <Link to="/history" className="text-sm text-[#6B6B68] hover:text-[#5CA98A] transition-colors flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 历史记录
               </Link>
-              <Link
-                to="/"
-                className="text-sm text-gray-500 hover:text-indigo-600 transition-colors flex items-center gap-1"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
+              <Link to="/" className="text-sm text-[#6B6B68] hover:text-[#5CA98A] transition-colors flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                 首页
               </Link>
             </div>

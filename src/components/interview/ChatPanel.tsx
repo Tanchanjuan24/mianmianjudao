@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import MessageBubble from './MessageBubble';
 import type { Message } from '../../types';
 
 interface ChatPanelProps {
@@ -14,8 +13,8 @@ interface ChatPanelProps {
   onExport?: () => void;
 }
 
-export default function ChatPanel({ 
-  messages, onSend, disabled, 
+export default function ChatPanel({
+  messages, onSend, disabled,
   isListening, isSpeaking, interimText,
   onStartListening, onStopListening, onExport
 }: ChatPanelProps) {
@@ -30,52 +29,105 @@ export default function ChatPanel({
     if (!trimmed || disabled) return;
     onSend(trimmed);
     setInput('');
-    inputRef.current?.focus();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
 
+  // 分离 AI 和用户消息
+  const aiMessages = messages.filter(m => m.role === 'interviewer');
+  const userMessages = messages.filter(m => m.role === 'user');
+  const systemMessages = messages.filter(m => m.role === 'system');
+
+  // 最新AI消息（实时字幕）
+  const latestAI = aiMessages[aiMessages.length - 1];
+  // 最新用户消息（实时字幕）
+  const latestUser = userMessages[userMessages.length - 1];
+
   return (
-    <div className="flex flex-col h-full bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-      <div className="bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-3 flex items-center gap-2">
-        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white text-xs font-bold backdrop-blur-sm">AI</div>
-        <div className="flex-1">
-          <span className="font-medium text-white text-sm">AI 面试官</span>
-          {isSpeaking && (
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <div className="voice-wave text-white/80" style={{ height: 12 }}><span /><span /><span /><span /><span /></div>
-              <span className="text-[10px] text-white/70">正在说话</span>
+    <div className="flex flex-col h-full bg-[#2A2A28] rounded-2xl border border-[#3A3A38] overflow-hidden shadow-lg">
+      {/* 标题栏 */}
+      <div className="bg-[#252524] border-b border-[#3A3A38] px-3 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-[#5CA98A] text-xs font-medium">实时字幕</span>
+          {(isSpeaking || isListening) && (
+            <div className="flex items-center gap-1">
+              {isSpeaking && <span className="text-[#5CA98A] text-[9px] bg-[#5CA98A]/10 px-1.5 py-0.5 rounded">AI说话中</span>}
+              {isListening && <span className="text-[#F9FC8F] text-[9px] bg-[#F9FC8F]/10 px-1.5 py-0.5 rounded">聆听中</span>}
             </div>
           )}
-          {!isSpeaking && messages.length > 0 && <p className="text-[10px] text-white/60">在线</p>}
         </div>
-        <span className="text-xs text-white/50">{messages.length} 条</span>
-        {onExport && messages.length > 0 && (
-          <button onClick={onExport} className="text-white/70 hover:text-white transition-colors p-1" title="导出对话">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          </button>
-        )}
+        <div className="flex items-center gap-1">
+          <span className="text-[#6B6B68] text-[10px]">{messages.length}条</span>
+          {onExport && messages.length > 0 && (
+            <button onClick={onExport} className="text-[#6B6B68] hover:text-[#5CA98A] transition-colors p-1" title="导出对话">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-3 scrollbar-thin bg-gray-50/50">
+      {/* ===== 实时字幕区 ===== */}
+      <div className="flex-1 overflow-y-auto px-3 py-3 scrollbar-thin space-y-3">
         {messages.length === 0 && !interimText ? (
-          <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+          <div className="flex items-center justify-center h-full text-[#4E4E4B] text-xs">
             <div className="text-center">
-              <div className="text-4xl mb-3">🎙️</div>
-              <p className="font-medium text-gray-500">点击「开始面试」</p>
-              <p className="text-xs text-gray-400 mt-1">AI面试官将通过语音与你对话</p>
+              <div className="text-2xl mb-2">🎙️</div>
+              <p>点击「开始面试」</p>
+              <p className="text-[10px] text-[#3A3A38] mt-1">AI面试官将语音提问</p>
             </div>
           </div>
         ) : (
           <>
-            {messages.map((msg) => <MessageBubble key={msg.id} message={msg} />)}
+            {/* 系统消息 */}
+            {systemMessages.map(msg => (
+              <div key={msg.id} className="flex justify-center">
+                <span className="text-[10px] text-[#6B6B68] bg-[#353533] px-2 py-0.5 rounded-full">{msg.content}</span>
+              </div>
+            ))}
+
+            {/* 对话消息列表 */}
+            {messages.filter(m => m.role !== 'system').map((msg) => {
+              const isUser = msg.role === 'user';
+              const isLatest = msg === latestAI || msg === latestUser;
+              return (
+                <div key={msg.id} className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-slide-in-right`}>
+                  <div className={`max-w-[90%] ${isUser ? '' : ''}`}>
+                    {/* 角色标签 */}
+                    <div className={`flex items-center gap-1 mb-0.5 ${isUser ? 'justify-end' : ''}`}>
+                      <span className={`text-[9px] font-medium ${isUser ? 'text-[#F9FC8F]' : 'text-[#5CA98A]'}`}>
+                        {isUser ? '面试者' : '面试官'}
+                      </span>
+                      {isLatest && (isUser ? isListening : isSpeaking) && (
+                        <span className={`text-[8px] ${isUser ? 'text-[#F9FC8F]' : 'text-[#5CA98A]'} animate-pulse`}>●</span>
+                      )}
+                    </div>
+                    {/* 字幕内容 */}
+                    <div className={`px-2.5 py-1.5 text-xs leading-relaxed rounded-lg ${
+                      isUser
+                        ? 'bg-[#F9FC8F]/10 text-[#DADBD6] border border-[#F9FC8F]/20 rounded-tr-sm'
+                        : 'bg-[#5CA98A]/10 text-[#DADBD6] border border-[#5CA98A]/20 rounded-tl-sm'
+                    } ${isLatest ? 'ring-1 ring-[#5CA98A]/30' : ''}`}>
+                      <p className="m-0 whitespace-pre-wrap break-words">{msg.content}</p>
+                    </div>
+                    <div className={`text-[8px] text-[#4E4E4B] mt-0.5 ${isUser ? 'text-right' : ''}`}>
+                      {new Date(msg.timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* 实时语音识别中间文字 */}
             {interimText && (
-              <div className="flex justify-end mb-3 animate-fade-in">
-                <div className="bg-indigo-50 border border-indigo-100 text-indigo-600 text-sm px-3 py-2 rounded-2xl rounded-tr-md max-w-[85%] italic">
-                  {interimText}
-                  <span className="inline-block w-0.5 h-4 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
+              <div className="flex justify-end animate-fade-in">
+                <div className="max-w-[90%]">
+                  <span className="text-[9px] text-[#F9FC8F] mb-0.5 block">面试者</span>
+                  <div className="px-2.5 py-1.5 text-xs rounded-lg bg-[#F9FC8F]/5 text-[#9EA09B] border border-[#F9FC8F]/10 italic">
+                    {interimText}
+                    <span className="inline-block w-0.5 h-3 bg-[#F9FC8F] ml-0.5 animate-pulse align-middle" />
+                  </div>
                 </div>
               </div>
             )}
@@ -84,28 +136,30 @@ export default function ChatPanel({
         <div ref={bottomRef} />
       </div>
 
-      <div className="bg-white border-t border-gray-100 p-3">
-        <div className="flex items-end gap-2">
+      {/* ===== 输入区 ===== */}
+      <div className="bg-[#252524] border-t border-[#3A3A38] p-2.5">
+        <div className="flex items-center gap-1.5">
           {onStartListening && onStopListening && (
             <button onClick={isListening ? onStopListening : onStartListening} disabled={disabled}
-              className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isListening ? 'bg-red-500 text-white animate-glow shadow-lg shadow-red-500/30' : 'bg-gray-100 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 disabled:opacity-40'}`}
-              title={isListening ? '停止语音输入' : '语音输入'}>
+              className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+                isListening ? 'bg-[#C97064] text-white animate-glow' : 'bg-[#353533] text-[#6B6B68] hover:text-[#5CA98A] disabled:opacity-30'
+              }`} title={isListening ? '停止语音' : '语音输入'}>
               {isListening ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
               ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               )}
             </button>
           )}
           <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKeyDown}
-            placeholder={disabled ? '面试已结束' : '输入回答，或点击🎤语音输入...'} disabled={disabled} rows={1}
-            className="flex-1 resize-none border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 disabled:bg-gray-50 disabled:text-gray-400 transition-colors" />
+            placeholder={disabled ? '面试已结束' : '输入或语音回答...'} disabled={disabled} rows={1}
+            className="flex-1 resize-none bg-[#353533] border border-[#3A3A38] rounded-lg px-2.5 py-2 text-xs text-[#DADBD6] placeholder-[#4E4E4B] focus:outline-none focus:border-[#5CA98A]/50 disabled:opacity-30 transition-colors" />
           <button onClick={handleSend} disabled={disabled || !input.trim()}
-            className="shrink-0 w-10 h-10 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-300 text-white rounded-xl flex items-center justify-center transition-all shadow-sm">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+            className="shrink-0 w-8 h-8 bg-[#5CA98A] hover:bg-[#4E8E75] disabled:bg-[#353533] disabled:opacity-30 text-white rounded-lg flex items-center justify-center transition-colors">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
           </button>
         </div>
-        {isListening && <p className="text-[10px] text-indigo-500 mt-1.5 text-center font-medium">🎤 正在聆听，请说话...</p>}
+        {isListening && <p className="text-[9px] text-[#F9FC8F] mt-1 text-center">🎤 正在聆听...</p>}
       </div>
     </div>
   );

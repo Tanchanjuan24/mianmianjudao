@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import DigitalAvatar from './DigitalAvatar';
 
 interface VideoPanelProps {
   stream: MediaStream | null;
@@ -20,54 +19,69 @@ export default function VideoPanel({ stream, isRecording, error, isAISpeaking, i
   }, [stream]);
 
   return (
-    <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-lg w-full" style={{ aspectRatio: '16/9', minHeight: '280px' }}>
-      {/* ===== 主画面：面试者摄像头 ===== */}
+    <div className="relative bg-[#1A1A19] rounded-2xl overflow-hidden shadow-2xl w-full" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
+      {/* ===== 主画面：面试者摄像头（全屏） ===== */}
       {stream ? (
         <video ref={videoRef} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" />
       ) : (
-        /* 无摄像头时的占位 */
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 text-gray-400">
-          <svg className="w-12 h-12 mb-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#252524] to-[#1A1A19] text-[#6B6B68]">
+          <svg className="w-14 h-14 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
           </svg>
           <p className="text-sm">摄像头未开启</p>
-          <p className="text-xs text-gray-500 mt-1">点击「开始面试」启动摄像头</p>
+          <p className="text-xs text-[#4E4E4B] mt-1">点击下方「开始面试」</p>
         </div>
       )}
 
-      {/* ===== 数字人小窗（左上角） ===== */}
-      <div className="absolute top-3 left-3 z-20 w-28 sm:w-36 md:w-40 aspect-video rounded-xl overflow-hidden shadow-xl border-2 border-white/20">
-        <DigitalAvatar isSpeaking={isAISpeaking || false} isListening={isListening || false} phase={phase} />
+      {/* ===== 左上角：AI面试官方块 ===== */}
+      <div className="absolute top-3 left-3 z-20 flex flex-col items-center gap-1">
+        <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl flex flex-col items-center justify-center shadow-lg border-2 transition-all ${
+          isAISpeaking
+            ? 'border-[#5CA98A] bg-[#5CA98A]/20 animate-glow'
+            : isListening
+              ? 'border-[#F9FC8F]/50 bg-[#F9FC8F]/10'
+              : 'border-[#5CA98A]/30 bg-[#2A2A28]/80'
+        }`}>
+          <span className="text-[#5CA98A] text-xs sm:text-sm font-bold">面试官</span>
+          {/* 状态指示 */}
+          {isAISpeaking && (
+            <div className="voice-wave text-[#5CA98A] mt-1" style={{ height: 8 }}>
+              <span /><span /><span /><span /><span />
+            </div>
+          )}
+          {isListening && !isAISpeaking && (
+            <span className="text-[#F9FC8F] text-[8px] mt-1">聆听中</span>
+          )}
+          {phase === 'idle' && !isAISpeaking && !isListening && (
+            <span className="text-[#6B6B68] text-[8px] mt-1">待命</span>
+          )}
+        </div>
       </div>
 
-      {/* ===== 错误提示（覆盖层，不挡数字人） ===== */}
-      {error && (
-        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-10 bg-black/70 backdrop-blur-sm rounded-xl px-4 py-2 text-center">
-          <p className="text-xs text-amber-400">{error}</p>
-          <p className="text-[10px] text-gray-500 mt-0.5">数字人模式继续面试</p>
-        </div>
-      )}
-
-      {/* ===== 录制状态指示器（右上角） ===== */}
+      {/* ===== 右上角：录制状态 ===== */}
       {isRecording && (
-        <div className="absolute top-3 right-3 z-20 flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1.5">
-          <span className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse-recording" />
-          <span className="text-white text-xs font-medium">录制中</span>
+        <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1">
+          <span className="w-2 h-2 bg-[#C97064] rounded-full animate-pulse-recording" />
+          <span className="text-white/80 text-[10px] font-medium">录制中</span>
         </div>
       )}
 
       {/* ===== 底部信息栏 ===== */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-full flex items-center justify-center text-white text-[8px] font-bold">AI</div>
-          <span className="text-white/80 text-xs">AI 面试官</span>
-        </div>
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/50 to-transparent px-3 py-2 flex items-center justify-between">
+        <span className="text-white/50 text-[10px]">面试者画面</span>
         {isRecording && (
-          <span className="text-white/60 text-xs font-mono">
+          <span className="text-white/40 text-[10px] font-mono">
             {new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
           </span>
         )}
       </div>
+
+      {/* ===== 错误提示（底部浮层） ===== */}
+      {error && (
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-1.5 text-center">
+          <p className="text-[10px] text-[#F9FC8F]">{error}</p>
+        </div>
+      )}
     </div>
   );
 }

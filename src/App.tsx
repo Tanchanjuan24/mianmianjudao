@@ -13,7 +13,7 @@ export default function App() {
   return (
     <HashRouter>
       <InterviewProvider>
-        <div className="min-h-screen flex flex-col bg-gray-50">
+        <div className="min-h-screen flex flex-col bg-[#1A1A19]">
           <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />

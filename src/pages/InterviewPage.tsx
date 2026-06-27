@@ -152,81 +152,86 @@ export default function InterviewPage() {
     <div className="flex-1 flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Link to={currentScene === 'job' ? '/job-config' : '/club-config'} className="text-gray-400 hover:text-gray-600 transition-colors">
+          <Link to={currentScene === 'job' ? '/job-config' : '/club-config'} className="text-[#6B6B68] hover:text-[#5CA98A] transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </Link>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-gray-800">{sceneTitle}</h1>
-            <p className="text-xs text-gray-400">{sceneSubtitle}</p>
+            <h1 className="text-lg sm:text-xl font-bold text-[#DADBD6]">{sceneTitle}</h1>
+            <p className="text-xs text-[#6B6B68]">{sceneSubtitle}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {(isSpeaking || isListening) && (
-            <div className={`px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 ${isSpeaking ? 'bg-cyan-50 text-cyan-600' : 'bg-red-50 text-red-600'}`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isSpeaking ? 'bg-cyan-500' : 'bg-red-500'} animate-pulse`} />
-              {isSpeaking ? 'AI说话中' : '聆听中'}
+            <div className={`px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1.5 ${isSpeaking ? 'bg-[#5CA98A]/10 text-[#5CA98A]' : 'bg-[#F9FC8F]/10 text-[#F9FC8F]'}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${isSpeaking ? 'bg-[#5CA98A]' : 'bg-[#F9FC8F]'} animate-pulse`} />
+              {isSpeaking ? 'AI说话' : '聆听中'}
             </div>
           )}
           {state.phase === 'interviewing' && (
-            <div className="hidden sm:flex items-center gap-2 text-xs text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
-              <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
+            <div className="hidden sm:flex items-center gap-2 text-[10px] text-[#6B6B68] bg-[#2A2A28] px-2.5 py-1.5 rounded-full">
+              <div className="w-14 h-1 bg-[#353533] rounded-full overflow-hidden">
+                <div className="h-full bg-[#5CA98A] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
               </div>
               <span>{state.questionCount}/{state.maxQuestions}</span>
             </div>
           )}
-          <button onClick={() => setShowAIConfig(true)} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${state.isMockMode ? 'border-amber-200 bg-amber-50 text-amber-700' : 'border-green-200 bg-green-50 text-green-700'}`}>
+          <button onClick={() => setShowAIConfig(true)} className={`px-2.5 py-1.5 rounded-lg text-[10px] font-medium border transition-colors ${state.isMockMode ? 'border-[#F9FC8F]/30 bg-[#F9FC8F]/5 text-[#F9FC8F]' : 'border-[#5CA98A]/30 bg-[#5CA98A]/5 text-[#5CA98A]'}`}>
             {state.isMockMode ? 'Mock' : 'AI'}
           </button>
           {state.phase === 'completed' && (
-            <button onClick={handleViewReview} className="px-4 py-1.5 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-lg text-sm font-medium hover:shadow-md transition-all">查看复盘报告</button>
+            <button onClick={handleViewReview} className="px-3 py-1.5 bg-[#5CA98A] hover:bg-[#4E8E75] text-white rounded-lg text-xs font-medium transition-colors">查看复盘</button>
           )}
         </div>
       </div>
 
       {state.phase === 'idle' && (
-        <div className="mb-4 p-3 glass rounded-xl text-sm text-gray-600 flex items-center gap-3 shadow-sm">
-          <span className="text-lg">🎙️</span>
+        <div className="mb-4 p-3 glass-dark rounded-xl text-sm text-[#9EA09B] flex items-center gap-3">
+          <span className="text-base">🎙️</span>
           <div>
-            <p className="font-medium text-gray-700">
+            <p className="font-medium text-[#DADBD6] text-xs">
               {currentScene === 'job' ? `${state.jobConfig.industry || '未选择'} · ${state.jobConfig.position || '未选择'}` : `${state.clubConfig.organizationType || '未选择'} · ${state.clubConfig.position || '未选择'}`}
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">AI面试官将语音提问，你可以打字或语音回答</p>
+            <p className="text-[10px] text-[#6B6B68] mt-0.5">AI面试官语音提问 · 你可打字或语音回答 · 右侧实时字幕</p>
           </div>
         </div>
       )}
 
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-4 min-h-0">
-        <div className="lg:col-span-3 flex flex-col gap-3">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-3 min-h-0">
+        {/* 左侧：视频画面 (3列) */}
+        <div className="lg:col-span-3 flex flex-col gap-2">
           <VideoPanel stream={stream} isRecording={isRecording} error={recorderError}
             isAISpeaking={isSpeaking} isListening={isListening} phase={state.phase} />
           {state.phase === 'interviewing' && (
-            <div className="sm:hidden flex items-center gap-2 text-xs text-gray-500">
-              <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
+            <div className="sm:hidden flex items-center gap-2 text-[10px] text-[#6B6B68]">
+              <div className="flex-1 h-1 bg-[#353533] rounded-full overflow-hidden">
+                <div className="h-full bg-[#5CA98A] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
               </div>
               <span>{state.questionCount}/{state.maxQuestions}</span>
             </div>
           )}
         </div>
-        <div className="lg:col-span-2 min-h-0" style={{ height: 'calc(100vh - 280px)', minHeight: '400px' }}>
-          <ChatPanel messages={state.messages} onSend={handleSend} disabled={state.phase !== 'interviewing' || isAIThinking}
-            isListening={isListening} isSpeaking={isSpeaking} interimText={interimText}
-            onStartListening={handleToggleListening} onStopListening={handleToggleListening} onExport={handleExport} />
+
+        {/* 右侧：实时字幕面板 (2列) */}
+        <div className="lg:col-span-2 min-h-0 flex flex-col" style={{ minHeight: '400px' }}>
+          <div className="flex-1 min-h-0">
+            <ChatPanel messages={state.messages} onSend={handleSend} disabled={state.phase !== 'interviewing' || isAIThinking}
+              isListening={isListening} isSpeaking={isSpeaking} interimText={interimText}
+              onStartListening={handleToggleListening} onStopListening={handleToggleListening} onExport={handleExport} />
+          </div>
           {isAIThinking && (
-            <div className="flex items-center gap-2 text-sm text-indigo-500 mt-2 px-2 font-medium">
+            <div className="flex items-center gap-2 text-xs text-[#5CA98A] mt-1.5 px-2 font-medium">
               <div className="flex gap-1">
-                <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span className="w-1 h-1 bg-[#5CA98A] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-1 h-1 bg-[#5CA98A] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-1 h-1 bg-[#5CA98A] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
-              AI 面试官正在思考...
+              AI思考中...
             </div>
           )}
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3">
         <ControlBar phase={state.phase} elapsedTime={state.elapsedTime} onStart={handleStart} onStop={handleStop}
           onToggleCamera={() => { stopRecording(); startRecording(); }} />
       </div>
