@@ -166,46 +166,46 @@ export default function InterviewPage() {
     <div className="flex-1 flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Link to={currentScene === 'job' ? '/job-config' : '/club-config'} className="text-[#6B6B68] hover:text-[#5CA98A] transition-colors">
+          <Link to={currentScene === 'job' ? '/job-config' : '/club-config'} className="text-[#4A5C50] hover:text-[#3D8357] transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </Link>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-[#2A2A28]">{sceneTitle}</h1>
-            <p className="text-xs text-[#9E9E9B]">{sceneSubtitle}</p>
+            <h1 className="text-lg sm:text-xl font-bold text-[#1A2B20]">{sceneTitle}</h1>
+            <p className="text-xs text-[#8A9B8F]">{sceneSubtitle}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {(isSpeaking || isListening) && (
-            <div className={`px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1.5 ${isSpeaking ? 'bg-[#5CA98A]/10 text-[#5CA98A]' : 'bg-[#D4A843]/10 text-[#D4A843]'}`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isSpeaking ? 'bg-[#5CA98A]' : 'bg-[#D4A843]'} animate-pulse`} />
+            <div className={`px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1.5 ${isSpeaking ? 'bg-[#3D8357]/10 text-[#3D8357]' : 'bg-[#FBC64D]/10 text-[#FBC64D]'}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${isSpeaking ? 'bg-[#3D8357]' : 'bg-[#FBC64D]'} animate-pulse`} />
               {isSpeaking ? 'AI说话' : '聆听中'}
             </div>
           )}
           {state.phase === 'interviewing' && (
-            <div className="hidden sm:flex items-center gap-2 text-[10px] text-[#6B6B68] bg-white border border-[#E0DCCF] px-2.5 py-1.5 rounded-full">
-              <div className="w-14 h-1 bg-[#E0DCCF] rounded-full overflow-hidden">
-                <div className="h-full bg-[#5CA98A] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
+            <div className="hidden sm:flex items-center gap-2 text-[10px] text-[#4A5C50] bg-white border border-[#CDD2CC] px-2.5 py-1.5 rounded-full">
+              <div className="w-14 h-1 bg-[#CDD2CC] rounded-full overflow-hidden">
+                <div className="h-full bg-[#3D8357] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
               </div>
               <span>{state.questionCount}/{state.maxQuestions}</span>
             </div>
           )}
-          <button onClick={() => setShowAIConfig(true)} className={`px-2.5 py-1.5 rounded-lg text-[10px] font-medium border transition-colors ${state.isMockMode ? 'border-[#D4A843]/30 bg-[#D4A843]/5 text-[#D4A843]' : 'border-[#5CA98A]/30 bg-[#5CA98A]/5 text-[#5CA98A]'}`}>
+          <button onClick={() => setShowAIConfig(true)} className={`px-2.5 py-1.5 rounded-lg text-[10px] font-medium border transition-colors ${state.isMockMode ? 'border-[#FBC64D]/30 bg-[#FBC64D]/5 text-[#FBC64D]' : 'border-[#3D8357]/30 bg-[#3D8357]/5 text-[#3D8357]'}`}>
             {state.isMockMode ? 'Mock' : 'AI'}
           </button>
           {state.phase === 'completed' && (
-            <button onClick={handleViewReview} className="px-3 py-1.5 bg-[#5CA98A] hover:bg-[#4E8E75] text-white rounded-lg text-xs font-medium transition-colors">查看复盘</button>
+            <button onClick={handleViewReview} className="px-3 py-1.5 bg-[#3D8357] hover:bg-[#2D6B45] text-white rounded-lg text-xs font-medium transition-colors">查看复盘</button>
           )}
         </div>
       </div>
 
       {state.phase === 'idle' && (
-        <div className="mb-4 p-3 bg-white border border-[#E0DCCF] rounded-xl text-sm flex items-center gap-3 shadow-sm">
+        <div className="mb-4 p-3 bg-white border border-[#CDD2CC] rounded-xl text-sm flex items-center gap-3 shadow-sm">
           <span className="text-base">🎙️</span>
           <div>
-            <p className="font-medium text-[#2A2A28] text-xs">
+            <p className="font-medium text-[#1A2B20] text-xs">
               {currentScene === 'job' ? `${state.jobConfig.industry || '未选择'} · ${state.jobConfig.position || '未选择'}` : `${state.clubConfig.organizationType || '未选择'} · ${state.clubConfig.position || '未选择'}`}
             </p>
-            <p className="text-[10px] text-[#9E9E9B] mt-0.5">AI面试官语音提问 · 你可打字或语音回答 · 右侧实时字幕</p>
+            <p className="text-[10px] text-[#8A9B8F] mt-0.5">AI面试官语音提问 · 你可打字或语音回答 · 右侧实时字幕</p>
           </div>
         </div>
       )}
@@ -216,9 +216,9 @@ export default function InterviewPage() {
           <VideoPanel stream={stream} isRecording={isRecording} error={recorderError}
             isAISpeaking={isSpeaking} isListening={isListening} phase={state.phase} />
           {state.phase === 'interviewing' && (
-            <div className="sm:hidden flex items-center gap-2 text-[10px] text-[#6B6B68]">
-              <div className="flex-1 h-1 bg-[#E0DCCF] rounded-full overflow-hidden">
-                <div className="h-full bg-[#5CA98A] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
+            <div className="sm:hidden flex items-center gap-2 text-[10px] text-[#4A5C50]">
+              <div className="flex-1 h-1 bg-[#CDD2CC] rounded-full overflow-hidden">
+                <div className="h-full bg-[#3D8357] rounded-full transition-all" style={{ width: `${(state.questionCount / state.maxQuestions) * 100}%` }} />
               </div>
               <span>{state.questionCount}/{state.maxQuestions}</span>
             </div>
@@ -233,11 +233,11 @@ export default function InterviewPage() {
               onStartListening={handleToggleListening} onStopListening={handleToggleListening} onExport={handleExport} />
           </div>
           {isAIThinking && (
-            <div className="flex items-center gap-2 text-xs text-[#5CA98A] mt-1.5 px-2 font-medium">
+            <div className="flex items-center gap-2 text-xs text-[#3D8357] mt-1.5 px-2 font-medium">
               <div className="flex gap-1">
-                <span className="w-1 h-1 bg-[#5CA98A] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-1 h-1 bg-[#5CA98A] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-1 h-1 bg-[#5CA98A] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span className="w-1 h-1 bg-[#3D8357] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-1 h-1 bg-[#3D8357] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-1 h-1 bg-[#3D8357] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
               AI思考中...
             </div>

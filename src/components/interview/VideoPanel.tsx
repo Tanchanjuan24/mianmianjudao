@@ -19,17 +19,17 @@ export default function VideoPanel({ stream, isRecording, error, isAISpeaking, i
   }, [stream]);
 
   return (
-    <div className="relative bg-[#2A2A28] rounded-2xl overflow-hidden shadow-lg w-full" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
+    <div className="relative bg-[#1A2B20] rounded-2xl overflow-hidden shadow-lg w-full" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
       {/* 主画面：面试者摄像头 */}
       {stream ? (
         <video ref={videoRef} autoPlay muted playsInline className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" />
       ) : (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#3A3A38] to-[#2A2A28] text-[#9E9E9B]">
-          <svg className="w-14 h-14 mb-3 text-[#6B6B68]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#3A3A38] to-[#1A2B20] text-[#8A9B8F]">
+          <svg className="w-14 h-14 mb-3 text-[#4A5C50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
           </svg>
           <p className="text-sm">摄像头未开启</p>
-          <p className="text-xs text-[#6B6B68] mt-1">点击下方「开始面试」</p>
+          <p className="text-xs text-[#4A5C50] mt-1">点击下方「开始面试」</p>
         </div>
       )}
 
@@ -37,19 +37,19 @@ export default function VideoPanel({ stream, isRecording, error, isAISpeaking, i
       <div className="absolute top-3 left-3 z-20">
         <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl flex flex-col items-center justify-center shadow-lg border-2 transition-all ${
           isAISpeaking
-            ? 'border-[#5CA98A] bg-[#5CA98A]/20 animate-glow'
+            ? 'border-[#3D8357] bg-[#3D8357]/20 animate-glow'
             : isListening
-              ? 'border-[#D4A843]/60 bg-[#D4A843]/10'
+              ? 'border-[#FBC64D]/60 bg-[#FBC64D]/10'
               : 'border-white/20 bg-black/50'
         }`}>
-          <span className={`text-xs sm:text-sm font-bold ${isAISpeaking ? 'text-[#5CA98A]' : isListening ? 'text-[#D4A843]' : 'text-white/80'}`}>面试官</span>
+          <span className={`text-xs sm:text-sm font-bold ${isAISpeaking ? 'text-[#3D8357]' : isListening ? 'text-[#FBC64D]' : 'text-white/80'}`}>面试官</span>
           {isAISpeaking && (
-            <div className="voice-wave text-[#5CA98A] mt-1" style={{ height: 8 }}>
+            <div className="voice-wave text-[#3D8357] mt-1" style={{ height: 8 }}>
               <span /><span /><span /><span /><span />
             </div>
           )}
           {isListening && !isAISpeaking && (
-            <span className="text-[#D4A843] text-[8px] mt-1">聆听中</span>
+            <span className="text-[#FBC64D] text-[8px] mt-1">聆听中</span>
           )}
           {phase === 'idle' && !isAISpeaking && !isListening && (
             <span className="text-white/40 text-[8px] mt-1">待命</span>
@@ -60,7 +60,7 @@ export default function VideoPanel({ stream, isRecording, error, isAISpeaking, i
       {/* 右上角：录制状态 */}
       {isRecording && (
         <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1">
-          <span className="w-2 h-2 bg-[#C97064] rounded-full animate-pulse-recording" />
+          <span className="w-2 h-2 bg-[#C96B5E] rounded-full animate-pulse-recording" />
           <span className="text-white/80 text-[10px] font-medium">录制中</span>
         </div>
       )}
@@ -78,7 +78,7 @@ export default function VideoPanel({ stream, isRecording, error, isAISpeaking, i
       {/* 错误提示 */}
       {error && (
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 bg-black/70 rounded-lg px-3 py-1.5">
-          <p className="text-[10px] text-[#D4A843]">{error}</p>
+          <p className="text-[10px] text-[#FBC64D]">{error}</p>
         </div>
       )}
     </div>

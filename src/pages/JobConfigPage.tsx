@@ -72,40 +72,40 @@ export default function JobConfigPage() {
     <div className="flex-1 max-w-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
       {/* 顶部 */}
       <div className="mb-8">
-        <Link to="/" className="inline-flex items-center gap-1 text-sm text-[#9E9E9B] hover:text-[#5CA98A] transition-colors mb-4">
+        <Link to="/" className="inline-flex items-center gap-1 text-sm text-[#8A9B8F] hover:text-[#3D8357] transition-colors mb-4">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           返回首页
         </Link>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#5CA98A] to-[#4E8E75] rounded-xl flex items-center justify-center text-white">
+          <div className="w-10 h-10 bg-gradient-to-br from-[#3D8357] to-[#2D6B45] rounded-xl flex items-center justify-center text-white">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-[#2A2A28]">求职面试配置</h1>
-            <p className="text-sm text-[#9E9E9B]">完善信息，让AI面试官更懂你</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1A2B20]">求职面试配置</h1>
+            <p className="text-sm text-[#8A9B8F]">完善信息，让AI面试官更懂你</p>
           </div>
         </div>
       </div>
 
       {/* 表单 */}
-      <div className="bg-white rounded-2xl border border-[#E0DCCF] shadow-sm p-5 sm:p-7 space-y-6">
+      <div className="bg-white rounded-2xl border border-[#CDD2CC] shadow-sm p-5 sm:p-7 space-y-6">
         {/* 简历上传 */}
         <div>
-          <label className="block text-sm font-medium text-[#2A2A28] mb-2">
-            简历上传 <span className="text-[#9E9E9B] font-normal">（可选，支持 .pdf / .txt / .docx）</span>
+          <label className="block text-sm font-medium text-[#1A2B20] mb-2">
+            简历上传 <span className="text-[#8A9B8F] font-normal">（可选，支持 .pdf / .txt / .docx）</span>
           </label>
           <div
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
               resumeFileName
-                ? 'border-[#5CA98A]/50 bg-[#E8F3EE]'
+                ? 'border-[#3D8357]/50 bg-[#E0EDE5]'
                 : errors.resume
-                  ? 'border-[#C97064]/40 bg-[#C97064]/10'
-                  : 'border-[#E0DCCF] hover:border-[#5CA98A]/40 hover:bg-[#E8F3EE]/30'
+                  ? 'border-[#C96B5E]/40 bg-[#C96B5E]/10'
+                  : 'border-[#CDD2CC] hover:border-[#3D8357]/40 hover:bg-[#E0EDE5]/30'
             }`}
           >
             <input
@@ -116,7 +116,7 @@ export default function JobConfigPage() {
               className="hidden"
             />
             {resumeFileName ? (
-              <div className="flex items-center justify-center gap-2 text-[#4E8E75]">
+              <div className="flex items-center justify-center gap-2 text-[#2D6B45]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
@@ -127,7 +127,7 @@ export default function JobConfigPage() {
                     setResumeFileName('');
                     setResumeContent('');
                   }}
-                  className="text-[#5CA98A] hover:text-[#C97064] ml-2"
+                  className="text-[#3D8357] hover:text-[#C96B5E] ml-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -135,8 +135,8 @@ export default function JobConfigPage() {
                 </button>
               </div>
             ) : (
-              <div className="text-[#9E9E9B]">
-                <svg className="w-10 h-10 mx-auto mb-2 text-[#E0DCCF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-[#8A9B8F]">
+                <svg className="w-10 h-10 mx-auto mb-2 text-[#CDD2CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <p className="text-sm">点击上传简历文件</p>
@@ -144,13 +144,13 @@ export default function JobConfigPage() {
               </div>
             )}
           </div>
-          {errors.resume && <p className="text-[#C97064] text-xs mt-1.5">{errors.resume}</p>}
+          {errors.resume && <p className="text-[#C96B5E] text-xs mt-1.5">{errors.resume}</p>}
         </div>
 
         {/* 行业选择 */}
         <div>
-          <label className="block text-sm font-medium text-[#2A2A28] mb-2">
-            目标行业 <span className="text-[#C97064]">*</span>
+          <label className="block text-sm font-medium text-[#1A2B20] mb-2">
+            目标行业 <span className="text-[#C96B5E]">*</span>
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
             {INDUSTRIES.map((ind) => (
@@ -160,21 +160,21 @@ export default function JobConfigPage() {
                 onClick={() => { setIndustry(ind); setErrors((p) => ({ ...p, industry: '' })); }}
                 className={`py-2 px-3 rounded-lg text-sm font-medium border transition-all ${
                   industry === ind
-                    ? 'border-[#5CA98A] bg-[#E8F3EE] text-[#4E8E75] shadow-sm'
-                    : 'border-[#E0DCCF] text-[#6B6B68] hover:border-[#E0DCCF]'
+                    ? 'border-[#3D8357] bg-[#E0EDE5] text-[#2D6B45] shadow-sm'
+                    : 'border-[#CDD2CC] text-[#4A5C50] hover:border-[#CDD2CC]'
                 }`}
               >
                 {ind}
               </button>
             ))}
           </div>
-          {errors.industry && <p className="text-[#C97064] text-xs mt-1.5">{errors.industry}</p>}
+          {errors.industry && <p className="text-[#C96B5E] text-xs mt-1.5">{errors.industry}</p>}
         </div>
 
         {/* 岗位选择 */}
         <div>
-          <label className="block text-sm font-medium text-[#2A2A28] mb-2">
-            岗位类型 <span className="text-[#C97064]">*</span>
+          <label className="block text-sm font-medium text-[#1A2B20] mb-2">
+            岗位类型 <span className="text-[#C96B5E]">*</span>
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
             {POSITIONS.map((pos) => (
@@ -184,35 +184,35 @@ export default function JobConfigPage() {
                 onClick={() => { setPosition(pos); setErrors((p) => ({ ...p, position: '' })); }}
                 className={`py-2 px-3 rounded-lg text-sm font-medium border transition-all ${
                   position === pos
-                    ? 'border-[#5CA98A] bg-[#E8F3EE] text-[#4E8E75] shadow-sm'
-                    : 'border-[#E0DCCF] text-[#6B6B68] hover:border-[#E0DCCF]'
+                    ? 'border-[#3D8357] bg-[#E0EDE5] text-[#2D6B45] shadow-sm'
+                    : 'border-[#CDD2CC] text-[#4A5C50] hover:border-[#CDD2CC]'
                 }`}
               >
                 {pos}
               </button>
             ))}
           </div>
-          {errors.position && <p className="text-[#C97064] text-xs mt-1.5">{errors.position}</p>}
+          {errors.position && <p className="text-[#C96B5E] text-xs mt-1.5">{errors.position}</p>}
         </div>
 
         {/* 备注 */}
         <div>
-          <label className="block text-sm font-medium text-[#2A2A28] mb-2">
-            额外备注 <span className="text-[#9E9E9B] font-normal">（可选）</span>
+          <label className="block text-sm font-medium text-[#1A2B20] mb-2">
+            额外备注 <span className="text-[#8A9B8F] font-normal">（可选）</span>
           </label>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={3}
             placeholder="你可以补充想强调的经历、期望的面试方向等..."
-            className="w-full border border-[#E0DCCF] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#5CA98A] focus:ring-1 focus:ring-[#5CA98A] resize-none transition-colors"
+            className="w-full border border-[#CDD2CC] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#3D8357] focus:ring-1 focus:ring-[#3D8357] resize-none transition-colors"
           />
         </div>
 
         {/* 开始按钮 */}
         <button
           onClick={handleStart}
-          className="w-full py-3 bg-gradient-to-r from-[#5CA98A] to-[#4E8E75] hover:from-[#4E8E75] hover:to-[#4E8E75] text-white font-semibold rounded-xl text-base transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
+          className="w-full py-3 bg-gradient-to-r from-[#3D8357] to-[#2D6B45] hover:from-[#2D6B45] hover:to-[#2D6B45] text-white font-semibold rounded-xl text-base transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
         >
           <span className="flex items-center justify-center gap-2">
             🚀 开始 AI 模拟面试

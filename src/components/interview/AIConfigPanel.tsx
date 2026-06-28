@@ -44,8 +44,8 @@ export default function AIConfigPanel({ isOpen, onClose }: AIConfigPanelProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-5">
-          <h3 className="font-bold text-[#2A2A28] text-lg">AI 服务配置</h3>
-          <button onClick={onClose} className="text-[#9E9E9B] hover:text-[#6B6B68] transition-colors">
+          <h3 className="font-bold text-[#1A2B20] text-lg">AI 服务配置</h3>
+          <button onClick={onClose} className="text-[#8A9B8F] hover:text-[#4A5C50] transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -53,7 +53,7 @@ export default function AIConfigPanel({ isOpen, onClose }: AIConfigPanelProps) {
         </div>
 
         {/* 服务商选择 */}
-        <label className="block text-sm font-medium text-[#6B6B68] mb-1.5">服务商</label>
+        <label className="block text-sm font-medium text-[#4A5C50] mb-1.5">服务商</label>
         <div className="grid grid-cols-2 gap-2 mb-4">
           {PROVIDERS.map((p) => (
             <button
@@ -61,8 +61,8 @@ export default function AIConfigPanel({ isOpen, onClose }: AIConfigPanelProps) {
               onClick={() => handleProviderChange(p.value as AIConfig['provider'])}
               className={`px-3 py-2 rounded-lg text-sm font-medium border transition-all ${
                 form.provider === p.value
-                  ? 'border-[#5CA98A] bg-[#E8F3EE] text-[#4E8E75]'
-                  : 'border-[#E0DCCF] text-[#6B6B68] hover:border-[#E0DCCF]'
+                  ? 'border-[#3D8357] bg-[#E0EDE5] text-[#2D6B45]'
+                  : 'border-[#CDD2CC] text-[#4A5C50] hover:border-[#CDD2CC]'
               }`}
             >
               {p.label}
@@ -71,37 +71,37 @@ export default function AIConfigPanel({ isOpen, onClose }: AIConfigPanelProps) {
         </div>
 
         {/* Base URL */}
-        <label className="block text-sm font-medium text-[#6B6B68] mb-1.5">API 地址</label>
+        <label className="block text-sm font-medium text-[#4A5C50] mb-1.5">API 地址</label>
         <input
           type="text"
           value={form.baseUrl}
           onChange={(e) => setForm((f) => ({ ...f, baseUrl: e.target.value }))}
           placeholder="https://api.openai.com/v1"
-          className="w-full border border-[#E0DCCF] rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:border-[#5CA98A] focus:ring-1 focus:ring-[#5CA98A]"
+          className="w-full border border-[#CDD2CC] rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:border-[#3D8357] focus:ring-1 focus:ring-[#3D8357]"
         />
 
         {/* Model */}
-        <label className="block text-sm font-medium text-[#6B6B68] mb-1.5">模型</label>
+        <label className="block text-sm font-medium text-[#4A5C50] mb-1.5">模型</label>
         <input
           type="text"
           value={form.model}
           onChange={(e) => setForm((f) => ({ ...f, model: e.target.value }))}
           placeholder="gpt-4o-mini"
-          className="w-full border border-[#E0DCCF] rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:border-[#5CA98A] focus:ring-1 focus:ring-[#5CA98A]"
+          className="w-full border border-[#CDD2CC] rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:border-[#3D8357] focus:ring-1 focus:ring-[#3D8357]"
         />
 
         {/* API Key */}
-        <label className="block text-sm font-medium text-[#6B6B68] mb-1.5">API Key</label>
+        <label className="block text-sm font-medium text-[#4A5C50] mb-1.5">API Key</label>
         <input
           type="password"
           value={form.apiKey}
           onChange={(e) => setForm((f) => ({ ...f, apiKey: e.target.value }))}
           placeholder="sk-..."
-          className="w-full border border-[#E0DCCF] rounded-lg px-3 py-2 text-sm mb-5 focus:outline-none focus:border-[#5CA98A] focus:ring-1 focus:ring-[#5CA98A]"
+          className="w-full border border-[#CDD2CC] rounded-lg px-3 py-2 text-sm mb-5 focus:outline-none focus:border-[#3D8357] focus:ring-1 focus:ring-[#3D8357]"
         />
 
         {/* 状态提示 */}
-        <div className={`text-xs mb-4 px-3 py-2 rounded-lg ${form.apiKey ? 'bg-[#E8F3EE] text-[#4E8E75]' : 'bg-[#FAF3E0] text-[#D4A843]'}`}>
+        <div className={`text-xs mb-4 px-3 py-2 rounded-lg ${form.apiKey ? 'bg-[#E0EDE5] text-[#2D6B45]' : 'bg-[#FCF3DC] text-[#FBC64D]'}`}>
           {form.apiKey
             ? '✅ 已配置 API Key，将使用真实 AI 进行面试'
             : '⚠️ 未配置 API Key，将使用本地 Mock 模式'}
@@ -111,13 +111,13 @@ export default function AIConfigPanel({ isOpen, onClose }: AIConfigPanelProps) {
         <div className="flex gap-2">
           <button
             onClick={handleClear}
-            className="flex-1 px-4 py-2 border border-[#E0DCCF] text-[#6B6B68] rounded-lg text-sm hover:bg-[#F5F2E8] transition-colors"
+            className="flex-1 px-4 py-2 border border-[#CDD2CC] text-[#4A5C50] rounded-lg text-sm hover:bg-[#DFE1DE] transition-colors"
           >
             清除配置
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 px-4 py-2 bg-[#5CA98A] hover:bg-[#4E8E75] text-white rounded-lg text-sm font-medium transition-colors"
+            className="flex-1 px-4 py-2 bg-[#3D8357] hover:bg-[#2D6B45] text-white rounded-lg text-sm font-medium transition-colors"
           >
             保存配置
           </button>

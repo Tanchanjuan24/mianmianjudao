@@ -31,8 +31,8 @@ export default function HistoryPage() {
       tooltip: {
         trigger: 'axis',
         backgroundColor: 'rgba(255,255,255,0.95)',
-        borderColor: '#E0DCCF',
-        textStyle: { color: '#2A2A28', fontSize: 13 },
+        borderColor: '#CDD2CC',
+        textStyle: { color: '#1A2B20', fontSize: 13 },
       },
       grid: { left: '8%', right: '8%', top: 15, bottom: 15 },
       xAxis: {
@@ -41,9 +41,9 @@ export default function HistoryPage() {
           const d = new Date(r.createdAt);
           return `${d.getMonth() + 1}/${d.getDate()}`;
         }),
-        axisLine: { lineStyle: { color: '#E0DCCF' } },
+        axisLine: { lineStyle: { color: '#CDD2CC' } },
         axisTick: { show: false },
-        axisLabel: { color: '#9E9E9B', fontSize: 11 },
+        axisLabel: { color: '#8A9B8F', fontSize: 11 },
       },
       yAxis: {
         type: 'value',
@@ -52,8 +52,8 @@ export default function HistoryPage() {
         interval: 20,
         axisLine: { show: false },
         axisTick: { show: false },
-        axisLabel: { color: '#9E9E9B', fontSize: 11 },
-        splitLine: { lineStyle: { color: '#E0DCCF' } },
+        axisLabel: { color: '#8A9B8F', fontSize: 11 },
+        splitLine: { lineStyle: { color: '#CDD2CC' } },
       },
       series: [
         {
@@ -62,9 +62,9 @@ export default function HistoryPage() {
           smooth: true,
           symbol: 'circle',
           symbolSize: 8,
-          lineStyle: { color: '#5CA98A', width: 3 },
+          lineStyle: { color: '#3D8357', width: 3 },
           itemStyle: {
-            color: '#5CA98A',
+            color: '#3D8357',
             borderColor: '#fff',
             borderWidth: 2,
           },
@@ -77,8 +77,8 @@ export default function HistoryPage() {
           markLine: {
             silent: true,
             data: [{ type: 'average', name: '平均分' }],
-            lineStyle: { color: '#D4A843', type: 'dashed' },
-            label: { color: '#D4A843', fontSize: 11 },
+            lineStyle: { color: '#FBC64D', type: 'dashed' },
+            label: { color: '#FBC64D', fontSize: 11 },
           },
         },
       ],
@@ -100,24 +100,24 @@ export default function HistoryPage() {
   const getSceneLabel = (type: string) => (type === 'job' ? '求职备战' : '社团竞选');
   const getSceneColor = (type: string) =>
     type === 'job'
-      ? 'bg-[#E8F3EE] text-[#4E8E75]'
-      : 'bg-[#FAF3E0] text-[#D4A843]';
+      ? 'bg-[#E0EDE5] text-[#2D6B45]'
+      : 'bg-[#FCF3DC] text-[#FBC64D]';
 
   return (
     <div className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* 顶部 */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Link to="/" className="text-[#9E9E9B] hover:text-[#6B6B68] transition-colors">
+          <Link to="/" className="text-[#8A9B8F] hover:text-[#4A5C50] transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#2A2A28]">面试历史记录</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1A2B20]">面试历史记录</h1>
         </div>
         <Link
           to="/"
-          className="px-4 py-2 bg-[#5CA98A] hover:bg-[#4E8E75] text-white text-sm font-medium rounded-xl transition-colors"
+          className="px-4 py-2 bg-[#3D8357] hover:bg-[#2D6B45] text-white text-sm font-medium rounded-xl transition-colors"
         >
           开始新面试
         </Link>
@@ -125,50 +125,50 @@ export default function HistoryPage() {
 
       {/* 成长曲线 */}
       {records.length >= 2 && (
-        <div className="bg-white rounded-2xl border border-[#E0DCCF] shadow-sm p-5 mb-6">
-          <h2 className="text-base font-semibold text-[#2A2A28] mb-1">📈 成长曲线</h2>
-          <p className="text-xs text-[#9E9E9B] mb-4">每次面试的AI评分趋势</p>
+        <div className="bg-white rounded-2xl border border-[#CDD2CC] shadow-sm p-5 mb-6">
+          <h2 className="text-base font-semibold text-[#1A2B20] mb-1">📈 成长曲线</h2>
+          <p className="text-xs text-[#8A9B8F] mb-4">每次面试的AI评分趋势</p>
           <div ref={chartRef} className="w-full" style={{ height: 220 }} />
         </div>
       )}
 
       {/* 记录列表 */}
       {records.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-[#E0DCCF] shadow-sm p-12 text-center">
-          <svg className="w-16 h-16 mx-auto mb-4 text-[#E0DCCF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white rounded-2xl border border-[#CDD2CC] shadow-sm p-12 text-center">
+          <svg className="w-16 h-16 mx-auto mb-4 text-[#CDD2CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <h3 className="text-lg font-medium text-[#9E9E9B] mb-2">暂无面试记录</h3>
-          <p className="text-sm text-[#9E9E9B] mb-6">完成一次模拟面试后，记录将显示在这里</p>
+          <h3 className="text-lg font-medium text-[#8A9B8F] mb-2">暂无面试记录</h3>
+          <p className="text-sm text-[#8A9B8F] mb-6">完成一次模拟面试后，记录将显示在这里</p>
           <Link
             to="/"
-            className="inline-flex px-5 py-2.5 bg-[#5CA98A] hover:bg-[#4E8E75] text-white font-medium rounded-xl transition-colors"
+            className="inline-flex px-5 py-2.5 bg-[#3D8357] hover:bg-[#2D6B45] text-white font-medium rounded-xl transition-colors"
           >
             去面试
           </Link>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-[#E0DCCF] shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-[#CDD2CC] shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#E0DCCF] bg-[#FAF7EE]/50">
-                  <th className="text-left py-3 px-4 text-xs font-medium text-[#9E9E9B]">时间</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-[#9E9E9B]">场景</th>
-                  <th className="text-left py-3 px-4 text-xs font-medium text-[#9E9E9B] hidden sm:table-cell">详情</th>
-                  <th className="text-center py-3 px-4 text-xs font-medium text-[#9E9E9B]">评分</th>
-                  <th className="text-center py-3 px-4 text-xs font-medium text-[#9E9E9B]">时长</th>
-                  <th className="text-right py-3 px-4 text-xs font-medium text-[#9E9E9B]">操作</th>
+                <tr className="border-b border-[#CDD2CC] bg-[#F2F4F1]/50">
+                  <th className="text-left py-3 px-4 text-xs font-medium text-[#8A9B8F]">时间</th>
+                  <th className="text-left py-3 px-4 text-xs font-medium text-[#8A9B8F]">场景</th>
+                  <th className="text-left py-3 px-4 text-xs font-medium text-[#8A9B8F] hidden sm:table-cell">详情</th>
+                  <th className="text-center py-3 px-4 text-xs font-medium text-[#8A9B8F]">评分</th>
+                  <th className="text-center py-3 px-4 text-xs font-medium text-[#8A9B8F]">时长</th>
+                  <th className="text-right py-3 px-4 text-xs font-medium text-[#8A9B8F]">操作</th>
                 </tr>
               </thead>
               <tbody>
                 {records.map((rec) => (
-                  <tr key={rec.id} className="border-b border-[#E0DCCF] hover:bg-[#FAF7EE]/50 transition-colors">
+                  <tr key={rec.id} className="border-b border-[#CDD2CC] hover:bg-[#F2F4F1]/50 transition-colors">
                     <td className="py-3 px-4">
-                      <p className="text-sm text-[#2A2A28]">
+                      <p className="text-sm text-[#1A2B20]">
                         {new Date(rec.createdAt).toLocaleDateString('zh-CN')}
                       </p>
-                      <p className="text-xs text-[#9E9E9B]">
+                      <p className="text-xs text-[#8A9B8F]">
                         {new Date(rec.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </td>
@@ -178,7 +178,7 @@ export default function HistoryPage() {
                       </span>
                     </td>
                     <td className="py-3 px-4 hidden sm:table-cell">
-                      <p className="text-sm text-[#6B6B68] truncate max-w-[200px]">
+                      <p className="text-sm text-[#4A5C50] truncate max-w-[200px]">
                         {rec.sceneType === 'job'
                           ? `${(rec.config as any).industry || ''} · ${(rec.config as any).position || ''}`
                           : `${(rec.config as any).organizationType || ''} · ${(rec.config as any).position || ''}`}
@@ -186,19 +186,19 @@ export default function HistoryPage() {
                     </td>
                     <td className="py-3 px-4 text-center">
                       <span className={`inline-block font-bold text-sm ${
-                        rec.aiScore >= 80 ? 'text-[#5CA98A]' : rec.aiScore >= 60 ? 'text-[#D4A843]' : 'text-[#C97064]'
+                        rec.aiScore >= 80 ? 'text-[#3D8357]' : rec.aiScore >= 60 ? 'text-[#FBC64D]' : 'text-[#C96B5E]'
                       }`}>
                         {rec.aiScore}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-center text-sm text-[#9E9E9B]">
+                    <td className="py-3 px-4 text-center text-sm text-[#8A9B8F]">
                       {Math.floor(rec.duration / 60)}分{rec.duration % 60}秒
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => navigate(`/review/${rec.sceneType}?recordId=${rec.id}`)}
-                          className="px-3 py-1.5 text-xs font-medium text-[#5CA98A] hover:bg-[#E8F3EE] rounded-lg transition-colors"
+                          className="px-3 py-1.5 text-xs font-medium text-[#3D8357] hover:bg-[#E0EDE5] rounded-lg transition-colors"
                         >
                           查看报告
                         </button>
@@ -206,13 +206,13 @@ export default function HistoryPage() {
                           <span className="flex items-center gap-1">
                             <button
                               onClick={() => handleDelete(rec.id)}
-                              className="px-2 py-1.5 text-xs font-medium text-[#C97064] hover:bg-[#C97064]/10 rounded-lg"
+                              className="px-2 py-1.5 text-xs font-medium text-[#C96B5E] hover:bg-[#C96B5E]/10 rounded-lg"
                             >
                               确认
                             </button>
                             <button
                               onClick={() => setConfirmDelete(null)}
-                              className="px-2 py-1.5 text-xs text-[#9E9E9B] hover:text-[#6B6B68]"
+                              className="px-2 py-1.5 text-xs text-[#8A9B8F] hover:text-[#4A5C50]"
                             >
                               取消
                             </button>
@@ -220,7 +220,7 @@ export default function HistoryPage() {
                         ) : (
                           <button
                             onClick={() => setConfirmDelete(rec.id)}
-                            className="p-1.5 text-[#E0DCCF] hover:text-[#C97064] transition-colors"
+                            className="p-1.5 text-[#CDD2CC] hover:text-[#C96B5E] transition-colors"
                             title="删除"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -2,24 +2,24 @@
 
 @layer base {
   :root {
-    /* 浅暖底 + 薄荷绿主色 + 暖黄点缀 - 参考图片配色 */
-    --color-bg: #F5F2E8;
-    --color-bg-soft: #EDE9DC;
+    /* 参考图配色：灰绿底 + 鲜绿主色 + 金黄点缀 */
+    --color-bg: #DFE1DE;
+    --color-bg-soft: #E8EBE7;
     --color-surface: #FFFFFF;
-    --color-surface-alt: #FAF7EE;
-    --color-primary: #5CA98A;
-    --color-primary-dark: #4E8E75;
-    --color-primary-light: #7BC4A8;
-    --color-primary-bg: #E8F3EE;
-    --color-accent: #D4A843;
-    --color-accent-light: #E8C778;
-    --color-accent-bg: #FAF3E0;
-    --color-text: #2A2A28;
-    --color-text-secondary: #6B6B68;
-    --color-text-muted: #9E9E9B;
-    --color-border: #E0DCCF;
-    --color-success: #5CA98A;
-    --color-danger: #C97064;
+    --color-surface-alt: #F2F4F1;
+    --color-primary: #3D8357;
+    --color-primary-dark: #2D6B45;
+    --color-primary-light: #5BA876;
+    --color-primary-bg: #E0EDE5;
+    --color-accent: #FBC64D;
+    --color-accent-dark: #E8B23A;
+    --color-accent-bg: #FCF3DC;
+    --color-text: #1A2B20;
+    --color-text-secondary: #4A5C50;
+    --color-text-muted: #8A9B8F;
+    --color-border: #CDD2CC;
+    --color-success: #3D8357;
+    --color-danger: #C96B5E;
   }
 
   * { box-sizing: border-box; }
@@ -57,14 +57,14 @@
   .voice-wave span:nth-child(5) { animation-delay: 0.4s; height: 30%; }
 
   .text-gradient-primary {
-    background: linear-gradient(135deg, #5CA98A, #D4A843);
+    background: linear-gradient(135deg, #3D8357, #FBC64D);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
 }
 
@@ -73,5 +73,5 @@
 @keyframes slideInRight { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes pulseRecording { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes glow { 0%,100% { box-shadow: 0 0 6px rgba(92,169,138,0.3); } 50% { box-shadow: 0 0 16px rgba(92,169,138,0.6); } }
+@keyframes glow { 0%,100% { box-shadow: 0 0 6px rgba(61,131,87,0.3); } 50% { box-shadow: 0 0 16px rgba(61,131,87,0.6); } }
 @keyframes voiceWave { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.3); } }
